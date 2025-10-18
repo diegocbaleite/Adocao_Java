@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Animal")
-public class animal {
+public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +20,6 @@ public class animal {
     private String descricao;
 
     @Enumerated(EnumType.STRING)
-    private statusAnimal status = statusAnimal.DISPONIVEL;
+    private StatusAnimal status = StatusAnimal.DISPONIVEL;
 }
 

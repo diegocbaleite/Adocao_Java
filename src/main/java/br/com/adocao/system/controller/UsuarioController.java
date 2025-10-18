@@ -1,4 +1,4 @@
 package br.com.adocao.system.controller;
 
-public class adocaoController {
+public class UsuarioController {
 }

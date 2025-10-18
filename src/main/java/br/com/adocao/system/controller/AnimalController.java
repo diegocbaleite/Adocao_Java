@@ -1,33 +1,33 @@
 package br.com.adocao.system.controller;
 
-import br.com.adocao.system.model.animal;
-import br.com.adocao.system.repository.animalRepository;
+import br.com.adocao.system.model.Animal;
+import br.com.adocao.system.repository.AnimalRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/animais")
-public class animalController {
+public class AnimalController {
 
-    private final animalRepository repository;
+    private final AnimalRepository repository;
 
-    public animalController(animalRepository repository) {
+    public AnimalController(AnimalRepository repository) {
         this.repository = repository;
     }
 
     @PostMapping
-    public animal salvar(@RequestBody animal animal) {
+    public Animal salvar(@RequestBody Animal animal) {
         return repository.save(animal);
     }
 
     @GetMapping
-    public List<animal> listar() {
+    public List<Animal> listar() {
         return repository.findAll();
     }
 
     @PutMapping("/{id}")
-    public animal atualizar(@PathVariable Long id, @RequestBody animal atualizado) {
+    public Animal atualizar(@PathVariable Long id, @RequestBody Animal atualizado) {
         return repository.findById(id)
                 .map(animal -> {
                     animal.setNome(atualizado.getNome());

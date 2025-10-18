@@ -1,6 +1,6 @@
 package br.com.adocao.system.model;
 
-public enum statusAnimal {
+public enum StatusAnimal {
     DISPONIVEL,
     ADOTADO
 }

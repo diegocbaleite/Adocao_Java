@@ -1,4 +1,4 @@
 package br.com.adocao.system.dto;
 
-public class adocaoDTO {
+public class StatusDTO {
 }
