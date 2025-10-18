@@ -2,7 +2,6 @@ package br.com.adocao.system.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDate;
 
 @Entity
