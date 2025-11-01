@@ -81,5 +81,5 @@ Diego Assunção Leite
 Analista de Sistemas | Desenvolvedor Java | 
 📍 Cuiabá - MT
 📧 E-mail: dev.diegocba@gmail.com
-]
-🔗 GitHub: diegocbaleite
+🔗 GitHub: github.com/diegocbaleite
+
