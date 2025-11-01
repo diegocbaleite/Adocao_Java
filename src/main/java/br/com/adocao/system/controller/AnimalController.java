@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/animais")
+@RequestMapping("/api/animais")
 public class AnimalController {
 
     private final AnimalRepository repository;
@@ -16,6 +16,7 @@ public class AnimalController {
         this.repository = repository;
     }
 
+    // SALVAR metodo POST http://localhost:8080/api/animais
     @PostMapping
     public Animal salvar(@RequestBody Animal animal) {
         return repository.save(animal);
