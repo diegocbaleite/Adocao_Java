@@ -30,7 +30,7 @@ O sistema foi desenvolvido em **Spring Boot** e segue boas práticas de arquitet
 | Autenticação | JWT |
 | Gerenciamento de Containers | Docker Compose |
 | Build Tool | Maven |
-| IDE Recomendada | Spring Tool Suite 4 |
+| IDE Recomendada | IntelliJ IDEA |
 | Outras Bibliotecas | Lombok, Validation, Spring Security |
 
 ---
@@ -45,7 +45,7 @@ O sistema foi desenvolvido em **Spring Boot** e segue boas práticas de arquitet
 
 ### 🐕 Animal
 - Cadastro de animais disponíveis para adoção  
-- Upload de fotos para o **MinIO** com links temporários (5 minutos)  
+- Upload de fotos para o **MinIO**  
 - Informações: nome, espécie, raça, idade, descrição e status (disponível/adotado)  
 
 ### 💌 Adoção
@@ -57,7 +57,7 @@ O sistema foi desenvolvido em **Spring Boot** e segue boas práticas de arquitet
 - Cadastro de abrigos e unidades que acolhem animais  
 
 ### 💾 Upload de Fotos (MinIO)
-- Envio de fotos de animais com geração de **URL temporária (5 minutos)**  
+- Envio de fotos de animais com geração 
 - Armazenamento seguro em bucket configurado no MinIO  
 
 ---
@@ -81,5 +81,6 @@ Diego Assunção Leite
 Analista de Sistemas | Desenvolvedor Java | 
 📍 Cuiabá - MT
 📧 E-mail: dev.diegocba@gmail.com
-🔗 GitHub: github.com/diegocbaleite
+🔗 GitHub: https://github.com/diegocbaleite
+
 
