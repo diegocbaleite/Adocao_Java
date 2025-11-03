@@ -77,10 +77,10 @@ Painel Dashboard Administrativo com estatísticas de adoções, doações e unid
 
 👨‍💻 Autor
 
-Diego Assunção Leite
-Analista de Sistemas | Desenvolvedor Java | 
-📍 Cuiabá - MT
-📧 E-mail: dev.diegocba@gmail.com
+Diego Assunção Leite |
+Analista de Sistemas | Desenvolvedor Java | 📍 Cuiabá - MT |
+📧 E-mail: dev.diegocba@gmail.com |
 🔗 GitHub: https://github.com/diegocbaleite
+
 
 
