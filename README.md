@@ -24,7 +24,7 @@ O sistema foi desenvolvido em **Spring Boot** e segue boas práticas de arquitet
 |--------|-------------|
 | Linguagem | Java 17+ |
 | Framework | Spring Boot |
-| Banco de Dados | PostgreSQL |
+| Banco de Dados | MySQL |
 | ORM | Spring Data JPA / Hibernate |
 | Armazenamento de Arquivos | MinIO |
 | Autenticação | JWT |
@@ -81,6 +81,7 @@ Diego Assunção Leite |
 Analista de Sistemas | Desenvolvedor Java | 📍 Cuiabá - MT |
 📧 E-mail: dev.diegocba@gmail.com |
 🔗 GitHub: https://github.com/diegocbaleite
+
 
 
 
