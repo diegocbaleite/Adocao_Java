@@ -1,6 +1,5 @@
 package br.com.adocao.system.service;
 
-import br.com.adocao.system.dto.UsuarioDTO;
 import br.com.adocao.system.mapper.UsuarioMapper;
 import br.com.adocao.system.model.Usuario;
 import br.com.adocao.system.repository.UsuarioRepository;

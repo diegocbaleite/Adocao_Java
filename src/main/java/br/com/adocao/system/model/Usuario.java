@@ -14,11 +14,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "USUARIO")
+@Table(name = "usuario")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private Long id;
 
     @Column(nullable = false, length = 100)
@@ -34,7 +35,10 @@ public class Usuario {
     private String endereco;
 
     @NotBlank(message = "O CPF é obrigatório")
-    @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 dígitos numéricos")
+    @Pattern(
+            regexp = "\\d{11}",
+            message = "CPF deve conter 11 dígitos numéricos"
+    )
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
@@ -44,16 +48,15 @@ public class Usuario {
     @Column(nullable = false)
     private Integer idade;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String senha;
 
     @Column(name = "data_cadastro", nullable = false, updatable = false)
     private LocalDateTime dataCadastro;
 
-    @Column(name = "ativo", nullable = false)
+    @Column(nullable = false)
     private Boolean ativo = true;
 
-    // Garante que a data de cadastro seja preenchida automaticamente
     @PrePersist
     protected void onCreate() {
         if (this.dataCadastro == null) {

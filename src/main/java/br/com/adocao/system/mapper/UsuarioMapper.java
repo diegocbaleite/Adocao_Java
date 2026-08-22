@@ -1,6 +1,5 @@
 package br.com.adocao.system.mapper;
 
-import br.com.adocao.system.dto.UsuarioDTO;
 import br.com.adocao.system.model.Usuario;
 
 public class UsuarioMapper {

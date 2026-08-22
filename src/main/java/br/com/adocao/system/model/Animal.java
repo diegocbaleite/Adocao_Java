@@ -1,5 +1,6 @@
 package br.com.adocao.system.model;
 
+import br.com.adocao.system.enums.StatusAnimal;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,12 +10,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ANIMAL")
+@Table(name = "animal")
 public class Animal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_animal")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_abrigo")
+    private Abrigo abrigo;
 
     @Column(nullable = false, length = 100)
     private String nome;
@@ -26,15 +32,15 @@ public class Animal {
     private String raca;
 
     @Column(nullable = false)
-    private int idade;
+    private Integer idade;
 
-    @Column(length = 500)
+    @Column(length = 255)
     private String descricao;
 
-    @Column(name = "foto_url")
+    @Column(name = "foto_url", length = 255)
     private String fotoUrl;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private StatusAnimal status = StatusAnimal.DISPONIVEL;
 }

@@ -1,6 +1,5 @@
 package br.com.adocao.system.controller;
 
-import br.com.adocao.system.dto.UsuarioDTO;
 import br.com.adocao.system.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.SneakyThrows;
