@@ -23,9 +23,7 @@ public class UsuarioController {
     // CREATE
     // POST http://localhost:8080/api/usuarios
     @PostMapping
-    public ResponseEntity<Map<String, Object>> criar(
-            @Valid @RequestBody UsuarioRequestDTO dto) {
-
+    public ResponseEntity<Map<String, Object>> criar(@Valid @RequestBody UsuarioRequestDTO dto) {
         UsuarioResponseDTO novo = usuarioService.criar(dto);
 
         Map<String, Object> resposta = new HashMap<>();
@@ -48,8 +46,7 @@ public class UsuarioController {
     // READ - BUSCAR POR ID
     // GET http://localhost:8080/api/usuarios/1
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> buscar(
-            @PathVariable Long id) {
+    public ResponseEntity<UsuarioResponseDTO> buscar(@PathVariable Long id) {
 
         UsuarioResponseDTO usuario = usuarioService.buscar(id);
 
@@ -90,9 +87,7 @@ public class UsuarioController {
     // DELETE
     // DELETE http://localhost:8080/api/usuarios/{id}
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deletar(
-            @PathVariable Long id) {
-
+    public ResponseEntity<Map<String, Object>> deletar(@PathVariable Long id) {
         usuarioService.deletar(id);
 
         Map<String, Object> resposta = new HashMap<>();
