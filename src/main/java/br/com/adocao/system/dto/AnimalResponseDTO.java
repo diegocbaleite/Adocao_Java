@@ -10,7 +10,6 @@ public record AnimalResponseDTO(
         Integer idade,
         String descricao,
         String fotoUrl,
-        StatusAnimal status,
-        Long idAbrigo
+        StatusAnimal status
 ) {
 }

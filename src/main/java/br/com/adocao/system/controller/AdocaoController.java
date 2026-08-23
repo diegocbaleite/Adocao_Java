@@ -14,6 +14,7 @@ public class AdocaoController {
 
     private final AdocaoRepository adocaoRepository;
 
+    // CREATE
     // SALVAR metodo POST http://localhost:8080/api/adocoes
     @PostMapping
     public Adocao salvar(@RequestBody Adocao adocao) {

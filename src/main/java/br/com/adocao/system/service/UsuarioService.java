@@ -19,12 +19,13 @@ import java.util.List;
 public class UsuarioService {
 
     @Autowired
-    private UsuarioRepository repository;
+    private UsuarioRepository usuarioRepository;
 
+    // CREATE
     // BUSCAR POR ID
     public UsuarioResponseDTO buscar(Long id) {
 
-        Usuario usuario = repository.findById(id)
+        Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Usuário não encontrado"
@@ -40,7 +41,7 @@ public class UsuarioService {
 
         Usuario usuario = UsuarioMapper.toEntity(dto);
 
-        Usuario salvo = repository.save(usuario);
+        Usuario salvo = usuarioRepository.save(usuario);
 
         return UsuarioMapper.toResponseDTO(salvo);
     }
@@ -48,7 +49,7 @@ public class UsuarioService {
     // ATUALIZAR
     public UsuarioResponseDTO atualizar(Long id, UsuarioRequestDTO dto) {
 
-        Usuario usuario = repository.findById(id)
+        Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Usuário não encontrado"
@@ -64,7 +65,7 @@ public class UsuarioService {
 
         // Verifica se o e-mail foi alterado e se já está em uso
         if (!usuario.getEmail().equals(dto.email())
-                && repository.existsByEmail(dto.email())) {
+                && usuarioRepository.existsByEmail(dto.email())) {
 
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
@@ -83,7 +84,7 @@ public class UsuarioService {
             usuario.setSenha(dto.senha());
         }
 
-        Usuario atualizado = repository.save(usuario);
+        Usuario atualizado = usuarioRepository.save(usuario);
 
         return UsuarioMapper.toResponseDTO(atualizado);
     }
@@ -105,11 +106,11 @@ public class UsuarioService {
                     status.equalsIgnoreCase("ativo")
                             || status.equalsIgnoreCase("true");
 
-            pagina = repository.findByAtivo(ativo, pageable);
+            pagina = usuarioRepository.findByAtivo(ativo, pageable);
 
         } else {
 
-            pagina = repository.findAll(pageable);
+            pagina = usuarioRepository.findAll(pageable);
         }
 
         return pagina.getContent()
@@ -121,26 +122,26 @@ public class UsuarioService {
     // EXCLUIR
     public void deletar(Long id) {
 
-        Usuario usuario = repository.findById(id)
+        Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Usuário não encontrado"
                 ));
 
-        repository.delete(usuario);
+        usuarioRepository.delete(usuario);
     }
 
     // VALIDAÇÕES
     private void validarCpfEmailIdade(UsuarioRequestDTO dto) {
 
-        if (repository.existsByCpf(dto.cpf())) {
+        if (usuarioRepository.existsByCpf(dto.cpf())) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "CPF já cadastrado"
             );
         }
 
-        if (repository.existsByEmail(dto.email())) {
+        if (usuarioRepository.existsByEmail(dto.email())) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "E-mail já cadastrado"
