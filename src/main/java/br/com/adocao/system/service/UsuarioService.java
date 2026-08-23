@@ -5,6 +5,7 @@ import br.com.adocao.system.dto.UsuarioResponseDTO;
 import br.com.adocao.system.mapper.UsuarioMapper;
 import br.com.adocao.system.model.Usuario;
 import br.com.adocao.system.repository.UsuarioRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,13 +16,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // CREATE
     // BUSCAR POR ID
     public UsuarioResponseDTO buscar(Long id) {
 
@@ -38,11 +39,8 @@ public class UsuarioService {
     public UsuarioResponseDTO criar(UsuarioRequestDTO dto) {
 
         validarCpfEmailIdade(dto);
-
         Usuario usuario = UsuarioMapper.toEntity(dto);
-
         Usuario salvo = usuarioRepository.save(usuario);
-
         return UsuarioMapper.toResponseDTO(salvo);
     }
 

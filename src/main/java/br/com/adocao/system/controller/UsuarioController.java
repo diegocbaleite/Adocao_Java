@@ -20,7 +20,6 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    // CREATE
     // POST http://localhost:8080/api/usuarios
     @PostMapping
     public ResponseEntity<Map<String, Object>> criar(@Valid @RequestBody UsuarioRequestDTO dto) {

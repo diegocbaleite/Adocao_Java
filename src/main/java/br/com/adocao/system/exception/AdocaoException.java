@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class AdocaoException {
 
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<Map<String, Object>> handleResponseStatusException(ResponseStatusException ex) {

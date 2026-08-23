@@ -14,7 +14,6 @@ public class AnimalController {
 
     private final AnimalRepository animalRepository;
 
-    // CREATE
     // SALVAR metodo POST http://localhost:8080/api/animais
     @PostMapping
     public Animal salvar(@RequestBody Animal animal) {
