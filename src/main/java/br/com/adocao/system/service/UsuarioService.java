@@ -35,6 +35,18 @@ public class UsuarioService {
         return UsuarioMapper.toResponseDTO(usuario);
     }
 
+    // BUSCAR POR NOME
+    public UsuarioResponseDTO buscarPorNome(String nome) {
+
+        Usuario usuario = usuarioRepository.findByNomeIgnoreCase(nome)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Usuário não encontrado"
+                ));
+
+        return UsuarioMapper.toResponseDTO(usuario);
+    }
+
     // CRIAR
     public UsuarioResponseDTO criar(UsuarioRequestDTO dto) {
 

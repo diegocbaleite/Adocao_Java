@@ -79,8 +79,56 @@ public interface UsuarioControllerDoc {
 
 
     @Operation(
+            summary = "Buscar usuário por nome",
+            description = """
+                    Retorna os usuários que possuem o nome informado.
+
+                    A busca não diferencia letras maiúsculas e minúsculas
+                    e permite pesquisar parte do nome.
+
+                    Exemplo:
+                    GET /api/usuarios/nome?nome=Diego
+                    """
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuários encontrados com sucesso"
+            ),
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Nenhum usuário encontrado"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Erro interno do servidor",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(
+                                    implementation = ApiErrorResponse.class
+                            )
+                    )
+            )
+    })
+    ResponseEntity<List<UsuarioResponseDTO>> buscarPorNome(
+            String nome
+    );
+
+
+    @Operation(
             summary = "Listar usuários",
-            description = "Retorna os usuários cadastrados com paginação e filtro por status."
+            description = """
+                    Retorna os usuários cadastrados com paginação
+                    e filtro por status.
+
+                    Exemplos:
+
+                    GET /api/usuarios
+
+                    GET /api/usuarios?status=ATIVO
+
+                    GET /api/usuarios?page=0&size=10
+                    """
     )
     @ApiResponses({
             @ApiResponse(

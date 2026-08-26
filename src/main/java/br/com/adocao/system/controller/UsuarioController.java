@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,16 @@ public class UsuarioController implements UsuarioControllerDoc {
 
         return ResponseEntity.ok(
                 usuarioService.buscar(id)
+        );
+    }
+
+    // GET http://localhost:8080/api/usuarios/nome/Diego%20Assunção%20Leite
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<List<UsuarioResponseDTO>> buscarPorNome(
+            @PathVariable String nome) {
+
+        return ResponseEntity.ok(
+                Collections.singletonList(usuarioService.buscarPorNome(nome))
         );
     }
 
