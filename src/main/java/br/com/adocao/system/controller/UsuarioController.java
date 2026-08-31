@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,8 @@ public class UsuarioController implements UsuarioControllerDoc {
     @Autowired
     private UsuarioService usuarioService;
 
+    // CREATE
+    // POST http://localhost:8080/api/usuarios
     @Override
     @PostMapping
     public ResponseEntity<Map<String, Object>> criar(
@@ -38,6 +39,8 @@ public class UsuarioController implements UsuarioControllerDoc {
                 .body(resposta);
     }
 
+    // BUSCAR POR ID
+    // GET http://localhost:8080/api/usuarios/1
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> buscar(
@@ -48,16 +51,23 @@ public class UsuarioController implements UsuarioControllerDoc {
         );
     }
 
-    // GET http://localhost:8080/api/usuarios/nome/Diego%20Assunção%20Leite
-    @GetMapping("/nome/{nome}")
-    public ResponseEntity<List<UsuarioResponseDTO>> buscarPorNome(
-            @PathVariable String nome) {
 
-        return ResponseEntity.ok(
-                Collections.singletonList(usuarioService.buscarPorNome(nome))
-        );
+    // BUSCAR POR NOME  //GET http://localhost:8080/api/usuarios/nome?nome=
+    @Override
+    @GetMapping("/nome")
+    public ResponseEntity<List<UsuarioResponseDTO>> buscarPorNome(
+            @RequestParam String nome) {
+
+        List<UsuarioResponseDTO> usuarios = usuarioService.buscarPorNome(nome);
+
+        if (usuarios.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(usuarios);
     }
 
+    // LISTAR GET http://localhost:8080/api/usuarios
     @Override
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> listar(
@@ -74,17 +84,18 @@ public class UsuarioController implements UsuarioControllerDoc {
         return ResponseEntity.ok(usuarios);
     }
 
+    // PUT http://localhost:8080/api/usuarios/{id}
     @Override
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> atualizar(
             @PathVariable Long id,
             @Valid @RequestBody UsuarioRequestDTO dto) {
 
-        return ResponseEntity.ok(
-                usuarioService.atualizar(id, dto)
+        return ResponseEntity.ok(usuarioService.atualizar(id, dto)
         );
     }
 
+    // DELETE http://localhost:8080/api/usuarios/{id}
     @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> deletar(

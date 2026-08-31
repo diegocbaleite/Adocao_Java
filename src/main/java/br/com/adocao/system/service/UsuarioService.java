@@ -6,6 +6,7 @@ import br.com.adocao.system.mapper.UsuarioMapper;
 import br.com.adocao.system.model.Usuario;
 import br.com.adocao.system.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -151,5 +152,15 @@ public class UsuarioService {
                     "Idade mínima para cadastro é 18 anos"
             );
         }
+    }
+
+    // BUSCAR POR NOME
+    public List<UsuarioResponseDTO> buscarPorNome(String nome) {
+
+        List<Usuario> usuarios = usuarioRepository.findByNomeContainingIgnoreCase(nome);
+
+        return usuarios.stream()
+                .map(UsuarioMapper::toResponseDTO)
+                .toList();
     }
 }

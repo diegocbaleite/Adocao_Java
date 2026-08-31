@@ -1,5 +1,6 @@
 package br.com.adocao.system.controller;
 
+import br.com.adocao.system.docs.AnimalControllerDoc;
 import br.com.adocao.system.model.Animal;
 import br.com.adocao.system.repository.AnimalRepository;
 import lombok.AllArgsConstructor;
@@ -11,12 +12,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/animais")
 @CrossOrigin(origins = "http://localhost:5173")
-public class AnimalController {
 public class AnimalController implements AnimalControllerDoc {
 
     private final AnimalRepository animalRepository;
 
-    // POST /api/animais
     // CREATE
     // POST http://localhost:8080/api/animais
     @Override
@@ -25,7 +24,6 @@ public class AnimalController implements AnimalControllerDoc {
         return animalRepository.save(animal);
     }
 
-    // GET /api/animais
     // READ
     // GET http://localhost:8080/api/animais
     @Override
@@ -34,7 +32,9 @@ public class AnimalController implements AnimalControllerDoc {
         return animalRepository.findAll();
     }
 
-    // PUT /api/animais/{id}
+    // UPDATE
+    // PUT http://localhost:8080/api/animais/{id}
+    @Override
     @PutMapping("/{id}")
     public Animal atualizar(
             @PathVariable Long id,
@@ -57,7 +57,6 @@ public class AnimalController implements AnimalControllerDoc {
                         new RuntimeException("Animal não encontrado"));
     }
 
-    // DELETE /api/animais/{id}
     // DELETE
     // DELETE http://localhost:8080/api/animais/{id}
     @Override
