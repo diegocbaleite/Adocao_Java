@@ -12,16 +12,23 @@ import java.util.List;
 @RequestMapping("/api/animais")
 @CrossOrigin(origins = "http://localhost:5173")
 public class AnimalController {
+public class AnimalController implements AnimalControllerDoc {
 
     private final AnimalRepository animalRepository;
 
     // POST /api/animais
+    // CREATE
+    // POST http://localhost:8080/api/animais
+    @Override
     @PostMapping
     public Animal salvar(@RequestBody Animal animal) {
         return animalRepository.save(animal);
     }
 
     // GET /api/animais
+    // READ
+    // GET http://localhost:8080/api/animais
+    @Override
     @GetMapping
     public List<Animal> listar() {
         return animalRepository.findAll();
@@ -51,6 +58,9 @@ public class AnimalController {
     }
 
     // DELETE /api/animais/{id}
+    // DELETE
+    // DELETE http://localhost:8080/api/animais/{id}
+    @Override
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
         animalRepository.deleteById(id);
