@@ -6,7 +6,6 @@ import br.com.adocao.system.mapper.UsuarioMapper;
 import br.com.adocao.system.model.Usuario;
 import br.com.adocao.system.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +19,7 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     // BUSCAR POR ID
     public UsuarioResponseDTO buscar(Long id) {
@@ -35,17 +33,33 @@ public class UsuarioService {
         return UsuarioMapper.toResponseDTO(usuario);
     }
 
+    // BUSCAR POR NOME
+    public List<UsuarioResponseDTO> buscarPorNome(String nome) {
+
+        List<Usuario> usuarios =
+                usuarioRepository.findByNomeContainingIgnoreCase(nome);
+
+        return usuarios.stream()
+                .map(UsuarioMapper::toResponseDTO)
+                .toList();
+    }
+
     // CRIAR
     public UsuarioResponseDTO criar(UsuarioRequestDTO dto) {
 
         validarCpfEmailIdade(dto);
+
         Usuario usuario = UsuarioMapper.toEntity(dto);
+
         Usuario salvo = usuarioRepository.save(usuario);
+
         return UsuarioMapper.toResponseDTO(salvo);
     }
 
     // ATUALIZAR
-    public UsuarioResponseDTO atualizar(Long id, UsuarioRequestDTO dto) {
+    public UsuarioResponseDTO atualizar(
+            Long id,
+            UsuarioRequestDTO dto) {
 
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -55,13 +69,14 @@ public class UsuarioService {
 
         // CPF não pode ser alterado
         if (!usuario.getCpf().equals(dto.cpf())) {
+
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "O CPF não pode ser alterado"
             );
         }
 
-        // Verifica se o e-mail foi alterado e se já está em uso
+        // Verifica e-mail duplicado
         if (!usuario.getEmail().equals(dto.email())
                 && usuarioRepository.existsByEmail(dto.email())) {
 
@@ -77,7 +92,7 @@ public class UsuarioService {
         usuario.setTelefone(dto.telefone());
         usuario.setEndereco(dto.endereco());
 
-        // Só altera a senha se uma nova senha for enviada
+        // Atualiza a senha somente se foi informada
         if (dto.senha() != null && !dto.senha().isBlank()) {
             usuario.setSenha(dto.senha());
         }
@@ -91,8 +106,7 @@ public class UsuarioService {
     public List<UsuarioResponseDTO> listar(
             String status,
             int page,
-            int size
-    ) {
+            int size) {
 
         Pageable pageable = PageRequest.of(page, size);
 
@@ -104,7 +118,10 @@ public class UsuarioService {
                     status.equalsIgnoreCase("ativo")
                             || status.equalsIgnoreCase("true");
 
-            pagina = usuarioRepository.findByAtivo(ativo, pageable);
+            pagina = usuarioRepository.findByAtivo(
+                    ativo,
+                    pageable
+            );
 
         } else {
 
@@ -130,9 +147,11 @@ public class UsuarioService {
     }
 
     // VALIDAÇÕES
-    private void validarCpfEmailIdade(UsuarioRequestDTO dto) {
+    private void validarCpfEmailIdade(
+            UsuarioRequestDTO dto) {
 
         if (usuarioRepository.existsByCpf(dto.cpf())) {
+
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "CPF já cadastrado"
@@ -140,6 +159,7 @@ public class UsuarioService {
         }
 
         if (usuarioRepository.existsByEmail(dto.email())) {
+
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "E-mail já cadastrado"
@@ -147,6 +167,7 @@ public class UsuarioService {
         }
 
         if (dto.idade() < 18) {
+
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "Idade mínima para cadastro é 18 anos"
