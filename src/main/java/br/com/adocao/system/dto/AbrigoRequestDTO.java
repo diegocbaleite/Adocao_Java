@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 public record AbrigoRequestDTO(
 
-        @NotBlank(message = "O nome é obrigatório")
+        @NotBlank(message = "O nome do abrigo é obrigatório")
         @Size(max = 100)
         String nome,
 
