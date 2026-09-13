@@ -1,7 +1,8 @@
 package br.com.adocao.system.docs;
 
+import br.com.adocao.system.dto.AnimalRequestDTO;
+import br.com.adocao.system.dto.AnimalResponseDTO;
 import br.com.adocao.system.dto.error.ApiErrorResponse;
-import br.com.adocao.system.model.Animal;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 
 @Tag(
         name = "Animais",
@@ -23,7 +26,7 @@ public interface AnimalControllerDoc {
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
                     description = "Animal cadastrado com sucesso"
             ),
             @ApiResponse(
@@ -35,45 +38,31 @@ public interface AnimalControllerDoc {
                                     implementation = ApiErrorResponse.class
                             )
                     )
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(
-                                    implementation = ApiErrorResponse.class
-                            )
-                    )
             )
     })
-    Animal salvar(Animal animal);
+    ResponseEntity<AnimalResponseDTO> salvar(
+            AnimalRequestDTO dto
+    );
 
     @Operation(
             summary = "Listar animais",
-            description = "Retorna todos os animais cadastrados no sistema."
+            description = "Lista os animais com paginação e filtro por status."
     )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Animais encontrados com sucesso"
+                    description = "Animais encontrados"
             ),
             @ApiResponse(
                     responseCode = "204",
                     description = "Nenhum animal encontrado"
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(
-                                    implementation = ApiErrorResponse.class
-                            )
-                    )
             )
     })
-    List<Animal> listar();
+    ResponseEntity<List<AnimalResponseDTO>> listar(
+            String status,
+            int page,
+            int size
+    );
 
     @Operation(
             summary = "Atualizar animal",
@@ -93,19 +82,12 @@ public interface AnimalControllerDoc {
                                     implementation = ApiErrorResponse.class
                             )
                     )
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(
-                                    implementation = ApiErrorResponse.class
-                            )
-                    )
             )
     })
-    Animal atualizar(Long id, Animal atualizado);
+    ResponseEntity<AnimalResponseDTO> atualizar(
+            Long id,
+            AnimalRequestDTO dto
+    );
 
     @Operation(
             summary = "Remover animal por ID",
@@ -125,17 +107,7 @@ public interface AnimalControllerDoc {
                                     implementation = ApiErrorResponse.class
                             )
                     )
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Erro interno do servidor",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(
-                                    implementation = ApiErrorResponse.class
-                            )
-                    )
             )
     })
-    void deletar(Long id);
+    ResponseEntity<Void> deletar(Long id);
 }

@@ -4,6 +4,7 @@ import br.com.adocao.system.enums.StatusAnimal;
 
 public record AnimalResponseDTO(
         Long id,
+        Long idAbrigo,
         String nome,
         String especie,
         String raca,

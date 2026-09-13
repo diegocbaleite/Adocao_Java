@@ -34,8 +34,13 @@ public class AnimalMapper {
             return null;
         }
 
+        Long idAbrigo = animal.getAbrigo() != null
+                ? animal.getAbrigo().getIdAbrigo()
+                : null;
+
         return new AnimalResponseDTO(
                 animal.getId(),
+                idAbrigo,
                 animal.getNome(),
                 animal.getEspecie(),
                 animal.getRaca(),
