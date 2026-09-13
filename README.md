@@ -151,7 +151,7 @@ src
 
 ### Banco de dados
 
-* **PostgreSQL **
+* **PostgreSQL**
 
 ### Armazenamento
 
