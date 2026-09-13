@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  Java • Spring Boot • MySQL • JWT • MinIO • Docker
+  Java • Spring Boot • PostgreSQL  • JWT • MinIO • Docker
 </p>
 
 ---
@@ -24,7 +24,7 @@ O projeto foi desenvolvido seguindo princípios de **API RESTful**, separação 
 
 * Desenvolver uma API REST utilizando Java e Spring Boot.
 * Implementar autenticação e autorização utilizando JWT.
-* Persistir dados utilizando MySQL e Spring Data JPA.
+* Persistir dados utilizando PostgreSQL e Spring Data JPA.
 * Implementar upload e armazenamento de imagens utilizando MinIO.
 * Utilizar Docker para facilitar a configuração e execução do ambiente.
 * Aplicar boas práticas de desenvolvimento e organização de código.
@@ -151,7 +151,7 @@ src
 
 ### Banco de dados
 
-* **MySQL**
+* **PostgreSQL **
 
 ### Armazenamento
 
