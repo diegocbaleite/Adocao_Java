@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  Java 17 • Spring Boot • PostgreSQL • Spring Data JPA • MinIO • Swagger/OpenAPI
+  Java 21 • Spring Boot • PostgreSQL • Spring Data JPA • MinIO • Swagger/OpenAPI
 </p>
 
 ---
@@ -198,7 +198,7 @@ src
 
 ## Backend
 
-* **Java 17**
+* **Java 21**
 * **Spring Boot 3**
 * **Spring Web**
 * **Spring Data JPA**
