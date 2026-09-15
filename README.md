@@ -387,7 +387,7 @@ http://localhost:8080/swagger-ui/index.html
 
 Antes de executar a aplicação, certifique-se de possuir:
 
-* Java 17 ou superior;
+* Java 21 ou superior;
 * PostgreSQL;
 * Maven ou Maven Wrapper;
 * Git;
