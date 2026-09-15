@@ -620,4 +620,30 @@ Funcionalidades e melhorias previstas:
 * [ ] Docker
 * [ ] Docker Compose
 * [ ] Pipeline CI/CD
-* [ ] D
+* [ ] Dashboard administrativo
+* [ ] Estatísticas de adoções
+* [ ] Sistema de doações via PIX
+* [ ] Integração com WhatsApp API
+
+---
+
+# 👨‍💻 Autor
+
+**Diego Assunção Leite**
+
+**Analista de Sistemas | Desenvolvedor Java**
+
+📍 Cuiabá - MT
+
+📧 [dev.diegocba@gmail.com](mailto:dev.diegocba@gmail.com)
+
+GitHub:
+https://github.com/diegocbaleite
+
+---
+
+# ⭐ Projeto
+
+Este projeto está em desenvolvimento contínuo e faz parte da evolução prática de conhecimentos em **Java, Spring Boot, arquitetura de software, APIs REST e desenvolvimento backend**.
+
+Novas funcionalidades serão adicionadas conforme a evolução da aplicação.
