@@ -2,6 +2,7 @@ package br.com.adocao.system.service;
 
 import br.com.adocao.system.dto.AdocaoRequestDTO;
 import br.com.adocao.system.dto.AdocaoResponseDTO;
+import br.com.adocao.system.enums.StatusAnimal;
 import br.com.adocao.system.mapper.AdocaoMapper;
 import br.com.adocao.system.model.Adocao;
 import br.com.adocao.system.model.Animal;
@@ -29,7 +30,6 @@ public class AdocaoService {
     // =====================================================
     // CRIAR ADOÇÃO
     // =====================================================
-
     public AdocaoResponseDTO criar(AdocaoRequestDTO dto) {
 
         Usuario usuario = usuarioRepository.findById(dto.idUsuario())
@@ -77,7 +77,6 @@ public class AdocaoService {
     // =====================================================
     // LISTAR
     // =====================================================
-
     public List<AdocaoResponseDTO> listar() {
 
         return adocaoRepository.findAll()
@@ -89,7 +88,6 @@ public class AdocaoService {
     // =====================================================
     // BUSCAR POR ID
     // =====================================================
-
     public AdocaoResponseDTO buscar(Long id) {
 
         Adocao adocao = adocaoRepository.findById(id)
@@ -106,7 +104,6 @@ public class AdocaoService {
     // =====================================================
     // ATUALIZAR
     // =====================================================
-
     public AdocaoResponseDTO atualizar(
             Long id,
             AdocaoRequestDTO dto
@@ -147,7 +144,6 @@ public class AdocaoService {
     // =====================================================
     // EXCLUIR
     // =====================================================
-
     public void deletar(Long id) {
 
         Adocao adocao = adocaoRepository.findById(id)
@@ -161,6 +157,9 @@ public class AdocaoService {
         adocaoRepository.delete(adocao);
     }
 
+    // =====================================================
+    // APROVAR
+    // =====================================================
     @Transactional
     public AdocaoResponseDTO aprovar(Long id) {
 
@@ -170,7 +169,31 @@ public class AdocaoService {
                         "Adoção não encontrada"
                 ));
 
-        return AdocaoMapper.toResponse(adocao);
+        // Impede aprovar novamente a mesma adoção.
+        if (Boolean.TRUE.equals(adocao.getAprovado())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Esta adoção já foi aprovada"
+            );
+        }
+
+        Animal animal = adocao.getAnimal();
+
+        // Só permite continuar se o animal estiver disponível.
+        if (animal.getStatus() != StatusAnimal.DISPONIVEL) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "O animal não está disponível para adoção"
+            );
+        }
+        adocao.setAprovado(true);
+        animal.setStatus(StatusAnimal.ADOTADO);
+
+        animalRepository.save(animal);
+        Adocao salva = adocaoRepository.save(adocao);
+
+        return AdocaoMapper.toResponse(salva);
+
     }
 
 }
