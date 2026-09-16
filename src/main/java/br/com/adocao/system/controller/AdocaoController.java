@@ -1,9 +1,12 @@
 package br.com.adocao.system.controller;
 
 import br.com.adocao.system.docs.AdocaoControllerDoc;
+import br.com.adocao.system.dto.AdocaoResponseDTO;
 import br.com.adocao.system.model.Adocao;
 import br.com.adocao.system.repository.AdocaoRepository;
+import br.com.adocao.system.service.AdocaoService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +17,8 @@ import java.util.List;
 public class AdocaoController implements AdocaoControllerDoc {
 
     private final AdocaoRepository adocaoRepository;
+    private final AdocaoService adocaoService;
 
-    // CREATE
     // POST http://localhost:8080/api/adocoes
     @Override
     @PostMapping
@@ -23,15 +26,13 @@ public class AdocaoController implements AdocaoControllerDoc {
         return adocaoRepository.save(adocao);
     }
 
-    // READ
     // GET http://localhost:8080/api/adocoes
     @Override
     @GetMapping
-    public List<Adocao> listar() {
-        return adocaoRepository.findAll();
+    public List<AdocaoResponseDTO> listar() {
+        return adocaoService.listar();
     }
 
-    // UPDATE
     // PUT http://localhost:8080/api/adocoes/{id}
     @Override
     @PutMapping("/{id}")
@@ -55,11 +56,19 @@ public class AdocaoController implements AdocaoControllerDoc {
                 );
     }
 
-    // DELETE
     // DELETE http://localhost:8080/api/adocoes/{id}
     @Override
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
         adocaoRepository.deleteById(id);
+    }
+
+    @PatchMapping("/{id}/aprovar")
+    public ResponseEntity<AdocaoResponseDTO> aprovar(
+            @PathVariable Long id) {
+
+        AdocaoResponseDTO resposta = adocaoService.aprovar(id);
+
+        return ResponseEntity.ok(resposta);
     }
 }

@@ -1,9 +1,13 @@
 package br.com.adocao.system.controller;
 
 import br.com.adocao.system.docs.AnimalControllerDoc;
-import br.com.adocao.system.model.Animal;
-import br.com.adocao.system.repository.AnimalRepository;
+import br.com.adocao.system.dto.AnimalRequestDTO;
+import br.com.adocao.system.dto.AnimalResponseDTO;
+import br.com.adocao.system.service.AnimalService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,54 +18,64 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173")
 public class AnimalController implements AnimalControllerDoc {
 
-    private final AnimalRepository animalRepository;
+    private final AnimalService animalService;
 
-    // CREATE
-    // POST http://localhost:8080/api/animais
+
+    // POST /api/animais
     @Override
     @PostMapping
-    public Animal salvar(@RequestBody Animal animal) {
-        return animalRepository.save(animal);
+    public ResponseEntity<AnimalResponseDTO> salvar(
+            @Valid @RequestBody AnimalRequestDTO dto) {
+
+        AnimalResponseDTO animal = animalService.criar(dto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(animal);
     }
 
     // READ
-    // GET http://localhost:8080/api/animais
+    // GET /api/animais
     @Override
     @GetMapping
-    public List<Animal> listar() {
-        return animalRepository.findAll();
+    public ResponseEntity<List<AnimalResponseDTO>> listar(
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        List<AnimalResponseDTO> animais =
+                animalService.listar(status, page, size);
+
+        if (animais.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(animais);
     }
 
     // UPDATE
-    // PUT http://localhost:8080/api/animais/{id}
+    // PUT /api/animais/{id}
     @Override
     @PutMapping("/{id}")
-    public Animal atualizar(
+    public ResponseEntity<AnimalResponseDTO> atualizar(
             @PathVariable Long id,
-            @RequestBody Animal atualizado) {
+            @Valid @RequestBody AnimalRequestDTO dto) {
 
-        return animalRepository.findById(id)
-                .map(animal -> {
-                    animal.setNome(atualizado.getNome());
-                    animal.setEspecie(atualizado.getEspecie());
-                    animal.setRaca(atualizado.getRaca());
-                    animal.setIdade(atualizado.getIdade());
-                    animal.setDescricao(atualizado.getDescricao());
-                    animal.setFotoUrl(atualizado.getFotoUrl());
-                    animal.setStatus(atualizado.getStatus());
-                    animal.setAbrigo(atualizado.getAbrigo());
+        AnimalResponseDTO animal =
+                animalService.atualizar(id, dto);
 
-                    return animalRepository.save(animal);
-                })
-                .orElseThrow(() ->
-                        new RuntimeException("Animal não encontrado"));
+        return ResponseEntity.ok(animal);
     }
 
     // DELETE
-    // DELETE http://localhost:8080/api/animais/{id}
+    // DELETE /api/animais/{id}
     @Override
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
-        animalRepository.deleteById(id);
+    public ResponseEntity<Void> deletar(
+            @PathVariable Long id) {
+
+        animalService.deletar(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

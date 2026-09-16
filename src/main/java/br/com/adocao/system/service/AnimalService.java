@@ -3,7 +3,9 @@ package br.com.adocao.system.service;
 import br.com.adocao.system.dto.AnimalRequestDTO;
 import br.com.adocao.system.dto.AnimalResponseDTO;
 import br.com.adocao.system.mapper.AnimalMapper;
+import br.com.adocao.system.model.Abrigo;
 import br.com.adocao.system.model.Animal;
+import br.com.adocao.system.repository.AbrigoRepository;
 import br.com.adocao.system.repository.AnimalRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import java.util.List;
 public class AnimalService {
 
     private final AnimalRepository animalRepository;
+    private final AbrigoRepository abrigoRepository;
 
     // BUSCAR POR ID
     public AnimalResponseDTO buscar(Long id) {
@@ -38,7 +41,10 @@ public class AnimalService {
 
         validarDadosAnimal(dto);
 
+        Abrigo abrigo = buscarAbrigo(dto.idAbrigo());
+
         Animal animal = AnimalMapper.toEntity(dto);
+        animal.setAbrigo(abrigo);
 
         Animal salvo = animalRepository.save(animal);
 
@@ -56,6 +62,9 @@ public class AnimalService {
 
         validarDadosAnimal(dto);
 
+        Abrigo abrigo = buscarAbrigo(dto.idAbrigo());
+
+        animal.setAbrigo(abrigo);
         animal.setNome(dto.nome());
         animal.setEspecie(dto.especie());
         animal.setRaca(dto.raca());
@@ -80,14 +89,8 @@ public class AnimalService {
         Page<Animal> pagina;
 
         if (status != null && !status.isBlank()) {
-
-            pagina = animalRepository.findByStatus(
-                    status,
-                    pageable
-            );
-
+            pagina = animalRepository.findByStatus(status, pageable);
         } else {
-
             pagina = animalRepository.findAll(pageable);
         }
 
@@ -107,6 +110,23 @@ public class AnimalService {
                 ));
 
         animalRepository.delete(animal);
+    }
+
+    // BUSCAR O ABRIGO PARA ASSOCIAR AO ANIMAL
+    private Abrigo buscarAbrigo(Long idAbrigo) {
+
+        if (idAbrigo == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "O abrigo é obrigatório"
+            );
+        }
+
+        return abrigoRepository.findById(idAbrigo)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Abrigo não encontrado"
+                ));
     }
 
     // VALIDAÇÕES
