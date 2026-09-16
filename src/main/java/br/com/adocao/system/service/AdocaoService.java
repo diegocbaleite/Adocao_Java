@@ -9,6 +9,7 @@ import br.com.adocao.system.model.Usuario;
 import br.com.adocao.system.repository.AdocaoRepository;
 import br.com.adocao.system.repository.AnimalRepository;
 import br.com.adocao.system.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -159,4 +160,17 @@ public class AdocaoService {
 
         adocaoRepository.delete(adocao);
     }
+
+    @Transactional
+    public AdocaoResponseDTO aprovar(Long id) {
+
+        Adocao adocao = adocaoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Adoção não encontrada"
+                ));
+
+        return AdocaoMapper.toResponse(adocao);
+    }
+
 }
