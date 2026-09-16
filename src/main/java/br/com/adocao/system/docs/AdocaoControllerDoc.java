@@ -1,5 +1,6 @@
 package br.com.adocao.system.docs;
 
+import br.com.adocao.system.dto.AdocaoResponseDTO;
 import br.com.adocao.system.dto.error.ApiErrorResponse;
 import br.com.adocao.system.model.Adocao;
 import io.swagger.v3.oas.annotations.Operation;
@@ -74,7 +75,7 @@ public interface AdocaoControllerDoc {
                     )
             )
     })
-    List<Adocao> listar();
+    List<AdocaoResponseDTO> listar();
 
 
     @Operation(

@@ -29,8 +29,8 @@ public class AdocaoController implements AdocaoControllerDoc {
     // GET http://localhost:8080/api/adocoes
     @Override
     @GetMapping
-    public List<Adocao> listar() {
-        return adocaoRepository.findAll();
+    public List<AdocaoResponseDTO> listar() {
+        return adocaoService.listar();
     }
 
     // PUT http://localhost:8080/api/adocoes/{id}
