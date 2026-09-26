@@ -1,12 +1,12 @@
 package br.com.adocao.system.controller;
 
 import br.com.adocao.system.docs.AdocaoControllerDoc;
+import br.com.adocao.system.dto.AdocaoRequestDTO;
 import br.com.adocao.system.dto.AdocaoResponseDTO;
-import br.com.adocao.system.model.Adocao;
-import br.com.adocao.system.repository.AdocaoRepository;
 import br.com.adocao.system.service.AdocaoService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,59 +16,44 @@ import java.util.List;
 @RequestMapping("/api/adocoes")
 public class AdocaoController implements AdocaoControllerDoc {
 
-    private final AdocaoRepository adocaoRepository;
     private final AdocaoService adocaoService;
 
-    // POST http://localhost:8080/api/adocoes
     @Override
     @PostMapping
-    public Adocao salvar(@RequestBody Adocao adocao) {
-        return adocaoRepository.save(adocao);
+    public AdocaoResponseDTO salvar(@Valid @RequestBody AdocaoRequestDTO dto) {
+        return adocaoService.criar(dto);
     }
 
-    // GET http://localhost:8080/api/adocoes
     @Override
     @GetMapping
     public List<AdocaoResponseDTO> listar() {
         return adocaoService.listar();
     }
 
-    // PUT http://localhost:8080/api/adocoes/{id}
+    @Override
+    @GetMapping("/{id}")
+    public AdocaoResponseDTO buscar(@PathVariable Long id) {
+        return adocaoService.buscar(id);
+    }
+
     @Override
     @PutMapping("/{id}")
-    public Adocao atualizar(
+    public AdocaoResponseDTO atualizar(
             @PathVariable Long id,
-            @RequestBody Adocao atualizado) {
-
-        return adocaoRepository.findById(id)
-                .map(adocao -> {
-                    adocao.setUsuario(atualizado.getUsuario());
-                    adocao.setAnimal(atualizado.getAnimal());
-                    adocao.setDataAdocao(atualizado.getDataAdocao());
-                    adocao.setAprovado(atualizado.getAprovado());
-
-                    return adocaoRepository.save(adocao);
-                })
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Nenhuma adoção foi encontrada."
-                        )
-                );
+            @Valid @RequestBody AdocaoRequestDTO dto) {
+        return adocaoService.atualizar(id, dto);
     }
 
-    // DELETE http://localhost:8080/api/adocoes/{id}
     @Override
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletar(@PathVariable Long id) {
-        adocaoRepository.deleteById(id);
+        adocaoService.deletar(id);
     }
 
+    @Override
     @PatchMapping("/{id}/aprovar")
-    public ResponseEntity<AdocaoResponseDTO> aprovar(
-            @PathVariable Long id) {
-
-        AdocaoResponseDTO resposta = adocaoService.aprovar(id);
-
-        return ResponseEntity.ok(resposta);
+    public AdocaoResponseDTO aprovar(@PathVariable Long id) {
+        return adocaoService.aprovar(id);
     }
 }
