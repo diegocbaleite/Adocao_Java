@@ -1,5 +1,6 @@
 package br.com.adocao.system.controller;
 
+import br.com.adocao.system.docs.AbrigoControllerDoc;
 import br.com.adocao.system.dto.AbrigoRequestDTO;
 import br.com.adocao.system.dto.AbrigoResponseDTO;
 import br.com.adocao.system.service.AbrigoService;
@@ -14,72 +15,78 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/abrigos")
-public class AbrigoController {
+public class AbrigoController implements AbrigoControllerDoc {
 
     private final AbrigoService abrigoService;
 
     // CREATE
+    @Override
     @PostMapping
-    public ResponseEntity<AbrigoResponseDTO> criar(
+    public AbrigoResponseDTO criar(
             @Valid @RequestBody AbrigoRequestDTO dto) {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(abrigoService.criar(dto));
+                .body(abrigoService.criar(dto)).getBody();
     }
 
     // LISTAR
+    @Override
     @GetMapping
-    public ResponseEntity<List<AbrigoResponseDTO>> listar() {
+    public List<AbrigoResponseDTO> listar() {
 
-        List<AbrigoResponseDTO> abrigos = abrigoService.listar();
+        List<AbrigoResponseDTO> abrigos =
+                abrigoService.listar();
 
         if (abrigos.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return (List<AbrigoResponseDTO>) ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(abrigos);
+        return ResponseEntity.ok(abrigos).getBody();
     }
 
     // BUSCAR POR ID
+    @Override
     @GetMapping("/{id}")
-    public ResponseEntity<AbrigoResponseDTO> buscar(
+    public AbrigoResponseDTO buscar(
             @PathVariable Long id) {
 
         return ResponseEntity.ok(
                 abrigoService.buscar(id)
-        );
+        ).getBody();
     }
 
     // BUSCAR POR NOME
+    @Override
     @GetMapping("/nome")
-    public ResponseEntity<List<AbrigoResponseDTO>> buscarPorNome(
+    public List<AbrigoResponseDTO> buscarPorNome(
             @RequestParam String nome) {
 
         List<AbrigoResponseDTO> abrigos =
                 abrigoService.buscarPorNome(nome);
 
         if (abrigos.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return (List<AbrigoResponseDTO>) ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(abrigos);
+        return ResponseEntity.ok(abrigos).getBody();
     }
 
     // ATUALIZAR
+    @Override
     @PutMapping("/{id}")
-    public ResponseEntity<AbrigoResponseDTO> atualizar(
+    public AbrigoResponseDTO atualizar(
             @PathVariable Long id,
             @Valid @RequestBody AbrigoRequestDTO dto) {
 
-        return ResponseEntity.ok(
-                abrigoService.atualizar(id, dto)
-        );
+        return ResponseEntity.ok(abrigoService.atualizar(id, dto)
+        ).getBody();
     }
 
     // EXCLUIR
+    @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(
+    public ResponseEntity<Object> deletar(
             @PathVariable Long id) {
 
         abrigoService.deletar(id);
